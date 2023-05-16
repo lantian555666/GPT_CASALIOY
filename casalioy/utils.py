@@ -25,6 +25,9 @@ style = Style.from_dict(
 def print_HTML(text: str, **kwargs) -> None:
     """print formatted HTML text"""
     try:
+        for k, v in kwargs.items():  # necessary
+            kwargs[k] = str(v).replace("\f", "")
+        text = text.replace("\f", "")
         print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
         print(text)
@@ -33,23 +36,42 @@ def print_HTML(text: str, **kwargs) -> None:
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
     """print formatted HTML text"""
     try:
+        for k, v in kwargs.items():  # necessary
+            kwargs[k] = str(v).replace("\f", "")
+        prompt = prompt.replace("\f", "")
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
         return input(prompt)
 
 
-def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = "*.bin") -> str:
+def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = None) -> str:
     """download model from HF if not local"""
+    if allow_patterns is None:
+        allow_patterns = ["*.bin", "*.json"]
+
     p = Path(path)
     if p.is_file() or p.is_dir():
         return str(p)
     try:
+        split = path.split("/")
+        is_dataset = split[0] == "datasets"
+        if is_dataset:
+            split = split[1:]
+            path = "/".join(split)
+
         if path.endswith(".bin"):
-            split = path.split("/")
-            path, file = "/".join(split[:2]), split[-1]
+            path, file = "/".join(split[: 3 if is_dataset else 2]), split[-1]
         validate_repo_id(path)
         print_HTML("<r>Downloading {model} from HF</r>", model=path)
-        new_path = Path(snapshot_download(repo_id=path, allow_patterns=file or allow_patterns))
+        new_path = Path(
+            snapshot_download(
+                repo_id=path,
+                allow_patterns=file or allow_patterns,
+                local_dir=f"models/{path}",
+                repo_type="dataset" if is_dataset else None,
+                local_dir_use_symlinks=False,
+            )
+        )
         if file is not None:
             files = [f for f in new_path.iterdir() if f.is_file() and f.name.endswith(".bin")]
             if len(files) > 1:
@@ -58,5 +80,5 @@ def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str
             new_path = files[0]
         return str(new_path.resolve())
 
-    except (HFValidationError, HTTPError):
-        print_HTML("<w>Could not download model {model} from HF</w>", model=path)
+    except (HFValidationError, HTTPError) as e:
+        print_HTML("<w>Could not download model {model} from HF: {e}</w>", model=path, e=e)
