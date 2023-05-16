@@ -11,6 +11,7 @@ from prompt_toolkit.formatted_text.html import html_escape
 
 from casalioy.load_env import (
     chain_type,
+    ctransformers_model_type,
     get_embedding_model,
     get_prompt_template_kwargs,
     model_n_ctx,
@@ -34,9 +35,9 @@ class QASystem:
         embeddings: Embeddings,
         db_path: str,
         model_path: str,
-        n_ctx: int,
-        temperature: float,
-        stop: list[str],
+        model_n_ctx: int,
+        model_temp: float,
+        model_stop: list[str],
         use_mlock: bool,
         n_gpu_layers: int,
         collection="test",
@@ -48,14 +49,26 @@ class QASystem:
         # Prepare the LLM chain
         callbacks = [StreamingStdOutCallbackHandler()]
         match model_type:
+            case "Ctransformers":
+                from ctransformers.langchain import CTransformers
+
+                llm = CTransformers(
+                    model=model_path,
+                    model_type=ctransformers_model_type,
+                    config={
+                        "max_new_tokens": model_n_ctx,
+                        "temperature": model_temp,
+                    },
+                )
+
             case "LlamaCpp":
                 from langchain.llms import LlamaCpp
 
                 llm = LlamaCpp(
                     model_path=model_path,
-                    n_ctx=n_ctx,
-                    temperature=temperature,
-                    stop=stop,
+                    n_ctx=model_n_ctx,
+                    temperature=model_temp,
+                    stop=model_stop,
                     callbacks=callbacks,
                     verbose=True,
                     n_threads=6,
@@ -71,7 +84,7 @@ class QASystem:
 
                 llm = GPT4All(
                     model=model_path,
-                    n_ctx=n_ctx,
+                    n_ctx=model_n_ctx,
                     callbacks=callbacks,
                     verbose=True,
                     backend="gptj",

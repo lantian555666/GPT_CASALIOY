@@ -28,6 +28,7 @@ unstructured = "^0.6.6"  # Handle ingestion file formats
 docx2txt = "^0.8"  # Handle docx ingestion file formats
 llama-cpp-python = "^0.1.50"  # 0.1.50 raises an AssertionError / NameError on <5 vic models
 sentence_transformers = "^2.2.2"  # doesn't install torch properly with poetry, but should be better in later versions
+ctransformers = "^0.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.3.1"

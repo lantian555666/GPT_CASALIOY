@@ -564,7 +564,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 files = [
@@ -726,6 +726,24 @@ ssh = ["bcrypt (>=3.1.5)"]
 test = ["iso8601", "pretend", "pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-shard (>=0.1.2)", "pytest-subtests", "pytest-xdist"]
 test-randomorder = ["pytest-randomly"]
 tox = ["tox"]
+
+[[package]]
+name = "ctransformers"
+version = "0.1.0"
+description = "Python bindings for the Transformer models implemented in C/C++ using GGML library."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ctransformers-0.1.0-py3-none-any.whl", hash = "sha256:54e9c3621a27836f2205943bc1f0065e7380157b93fdad389cf92a30992445ec"},
+    {file = "ctransformers-0.1.0.tar.gz", hash = "sha256:5bf3f253471edfcfe39db424f5d684b604610d29f1b8247e9f4c5098120eb29f"},
+]
+
+[package.dependencies]
+huggingface-hub = "*"
+
+[package.extras]
+tests = ["pytest"]
 
 [[package]]
 name = "cycler"
@@ -1047,7 +1065,7 @@ files = [
 name = "fsspec"
 version = "2023.5.0"
 description = "File-system specification"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -1406,7 +1424,7 @@ socks = ["socksio (>=1.0.0,<2.0.0)"]
 name = "huggingface-hub"
 version = "0.14.1"
 description = "Client library to download and publish models, datasets and other repos on the huggingface.co hub"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7.0"
 files = [
@@ -2485,7 +2503,7 @@ et-xmlfile = "*"
 name = "packaging"
 version = "23.1"
 description = "Core utilities for Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -3269,7 +3287,7 @@ files = [
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -4339,7 +4357,7 @@ files = [
 name = "tqdm"
 version = "4.65.0"
 description = "Fast, Extensible Progress Meter"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -4450,7 +4468,7 @@ test = ["black (>=22.3.0,<23.0.0)", "coverage (>=6.2,<7.0)", "isort (>=5.0.6,<6.
 name = "typing-extensions"
 version = "4.5.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -4858,4 +4876,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "a83e0a68882dd992ebe4b1bc161468f2376066af127c6b4c8452485f7cf15b0e"
+content-hash = "f1dcb4105de9ee36018b87cec4c25322e3ab9391c5c698276e640266cb32e1eb"
