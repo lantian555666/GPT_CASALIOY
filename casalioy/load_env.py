@@ -25,6 +25,7 @@ chunk_overlap = int(os.environ.get("INGEST_CHUNK_OVERLAP"))
 
 # generate
 model_type = os.environ.get("MODEL_TYPE")
+ctransformers_model_type = os.environ.get("CTRANSFORMERS_MODEL_TYPE", None)
 model_path = os.environ.get("MODEL_PATH")
 model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
