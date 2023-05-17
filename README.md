@@ -60,7 +60,8 @@ python -m pip install --force streamlit sentence_transformers  # Temporary banda
 pre-commit install
 ```
 
-If you want GPU support (only for llama-ccp, requires CUDA):
+If you want GPU support for llama-ccp:
+
 ```shell
 pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
@@ -71,7 +72,7 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-pytho
 ```env
 # Generic
 MODEL_N_CTX=1024
-TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2  # For HF, can be HF name
+TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2
 TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
 USE_MLOCK=true
 
@@ -82,15 +83,13 @@ INGEST_CHUNK_SIZE=500
 INGEST_CHUNK_OVERLAP=50
 
 # Generation
-MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp or Ctransformers
-CTRANSFORMERS_MODEL_TYPE=gptj # Only with Ctransformers: gpt2, gptj, gpt_neox, dolly-v2, starcoder
-MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin  # For Ctransformers, can be HF name
+MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
+MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
 MODEL_TEMP=0.8
 MODEL_STOP=[STOP]
 CHAIN_TYPE=stuff
 N_RETRIEVE_DOCUMENTS=100 # How many documents to retrieve from the db
 N_FORWARD_DOCUMENTS=6 # How many documents to forward to the LLM, chosen among those retrieved
-N_GPU_LAYERS=4
 ```
 
 This should look like this
@@ -113,7 +112,7 @@ This should look like this
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
 
-> This repo includes dummy [files](https://github.com/imartinez/privateGPT/blob/main/source_documents/)
+> This repo includes dummy [files](https://github.com/su77ungr/CASALIOY/tree/main/source_documents)
 > inside `source_documents` to run tests with.
 
 ```shell
